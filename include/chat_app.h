@@ -7,13 +7,13 @@
 class ChatApp {
     public:
         ChatApp(std::string user_name);
+        ~ChatApp() {};
         void get_menue_options();
         void create_chat();
         void list_chats();
+        void open_chat();
         /*
-        ~ChatApp();
         void welcome();
-        void open_chat(std::string chat_name);
         void close_chat(std::string chat_name);
         void close_chat(); //leave currently active chat
         std::vector<std::string> list_chats();

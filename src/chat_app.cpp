@@ -35,7 +35,7 @@ void ChatApp::get_menue_options() {
             create_chat();
             break;
         case 2:
-            std::cout << "Chat opened" << std::endl;
+            open_chat();
             break;
         case 3:
             std::cout << "Chat closed" << std::endl;
@@ -64,10 +64,34 @@ void ChatApp::list_chats() {
     int i = 1;
     if (!_chats.empty()) {
         for (auto& chat: _chats) {
-            std::cout << i << ".) Chat: " << chat->_chat_name << std::endl;
+            std::cout << "ID: " << i << "Chat name: " << chat->_chat_name << std::endl;
             i++;
         }
     } else {
         std::cout << "There are no chats yet. You can create chats in the main menue" << std::endl;
     }
 }
+
+void ChatApp::open_chat() {
+    std::cout << "Please enter chat id or 'q' to return to main menue" << std::endl;
+    std::string input;
+    std::cin >> input;
+
+    if(input == "q") {
+        return;
+    } else {
+        try
+        {
+            std::cout << "Chat: " << _chats[std::stoi(input)]->_chat_name << " selected" << std::endl;
+        }
+        //TODO: catch block not working properly yet -> Why?
+        catch(const std::exception& e)
+        {
+            std::cerr << e.what() << '\n';
+            open_chat();
+        }
+        
+    }
+}
+
+//TODO: Allow return to previous menue using "q"
