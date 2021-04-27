@@ -85,6 +85,10 @@ void ChatApp::open_chat() {
             std::cout << "Chat: " << _chats[std::stoi(input)]->_chat_name << " selected" << std::endl;
             std::cout << "You can start chatting :)" << std::endl;
 
+
+            // TODO: Make input non-blocking
+            // TODO: print messages as long as queue is non-empty
+            // TODO: implement function that randomly sends text to queue
             while(true) {
                 std::string msg;
                 std::cin >> msg;

@@ -35,5 +35,5 @@ class Chat {
         OnlineStatus _online_status;
         std::string _chat_name;
         std::vector<std::string> _messages;
-        //std::unique_ptr<ChatQueue> _chat_queue;
+        std::unique_ptr<MessageQueue<std::string>> _chat_queue;
 };
