@@ -61,10 +61,10 @@ void ChatApp::create_chat() {
 }
 
 void ChatApp::list_chats() {
-    int i = 1;
+    int i = 0;
     if (!_chats.empty()) {
         for (auto& chat: _chats) {
-            std::cout << "ID: " << i << "Chat name: " << chat->_chat_name << std::endl;
+            std::cout << "ID: " << i << " - Chat name: " << chat->_chat_name << std::endl;
             i++;
         }
     } else {
@@ -83,6 +83,19 @@ void ChatApp::open_chat() {
         try
         {
             std::cout << "Chat: " << _chats[std::stoi(input)]->_chat_name << " selected" << std::endl;
+            std::cout << "You can start chatting :)" << std::endl;
+
+            while(true) {
+                std::string msg;
+                std::cin >> msg;
+                if (msg != "q") {
+                    _chats[std::stoi(input)]->send_message(msg);
+                    //TODO: send message to queue
+                    //pop messages from queue first in first out
+                } else {
+                    return;
+                }
+            }
         }
         //TODO: catch block not working properly yet -> Why?
         catch(const std::exception& e)

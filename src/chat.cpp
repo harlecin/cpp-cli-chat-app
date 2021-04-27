@@ -13,5 +13,5 @@ Chat::~Chat() {
 }
 
 void Chat::send_message(std::string text) {
-    std::cout << text << std::endl;
+    std::cout << text << " sent" << std::endl;
 }
