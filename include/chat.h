@@ -36,4 +36,8 @@ class Chat {
         std::string _chat_name;
         std::vector<std::string> _messages;
         std::unique_ptr<MessageQueue<std::string>> _chat_queue;
+        //std::unique_ptr<std::vector<std::string>> _chat_history;
+        //TODO: on open_chat() -> load _chat_history last 10 messages
 };
+
+// TODO: implement Message class

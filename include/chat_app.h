@@ -16,7 +16,6 @@ class ChatApp {
         void welcome();
         void close_chat(std::string chat_name);
         void close_chat(); //leave currently active chat
-        std::vector<std::string> list_chats();
         */
     private:
         std::string _user_name;
