@@ -27,17 +27,19 @@ class MessageQueue {
 
 class Chat {
     public:
-        Chat(std::string chat_name);
+        Chat(std::string chat_name, std::string user_name);
         ~Chat();
         void send_message(std::string text);
-        //std::string receive_messages();
-
+        std::string receive_messages();
+        void send_random_message();
+    
         OnlineStatus _online_status;
         std::string _chat_name;
+        std::string _user_name;
         std::vector<std::string> _messages;
         std::unique_ptr<MessageQueue<std::string>> _chat_queue;
         //std::unique_ptr<std::vector<std::string>> _chat_history;
         //TODO: on open_chat() -> load _chat_history last 10 messages
 };
 
-// TODO: implement Message class
+// TODO: implement Message class or overkill?

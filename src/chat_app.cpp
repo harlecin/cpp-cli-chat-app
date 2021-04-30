@@ -6,9 +6,7 @@
 #include <iostream>
 
 
-ChatApp::ChatApp(std::string user_name) {
-    this->_user_name = user_name;
-}
+ChatApp::ChatApp(std::string user_name): _user_name(user_name) {}
 
 void ChatApp::get_menue_options() {
     int option;
@@ -54,7 +52,7 @@ void ChatApp::create_chat() {
     std::cout << "Please input chat name:" << std::endl;
     std::cin >> chat_name;
     //std::unique_ptr<Chat> chat = std::unique_ptr<Chat>(new Chat(chat_name));
-    auto chat = std::make_unique<Chat>(chat_name);
+    auto chat = std::make_unique<Chat>(chat_name, this->_user_name);
     _chats.push_back(std::move(chat));
 
     std::cout << "New chat " << chat_name <<" successfully created" << std::endl;
@@ -75,6 +73,8 @@ void ChatApp::list_chats() {
 void ChatApp::open_chat() {
     std::cout << "Please enter chat id or 'q' to return to main menue" << std::endl;
     std::string input;
+
+
     std::cin >> input;
 
     if(input == "q") {
@@ -82,6 +82,7 @@ void ChatApp::open_chat() {
     } else {
         try
         {
+            //TODO: What happens if I am out-of-bounds?
             std::cout << "Chat: " << _chats[std::stoi(input)]->_chat_name << " selected" << std::endl;
             std::cout << "You can start chatting :)" << std::endl;
 
@@ -91,11 +92,16 @@ void ChatApp::open_chat() {
             // TODO: implement function that randomly sends text to queue
             while(true) {
                 std::string msg;
-                std::cin >> msg;
+                //std::cin >> msg;
+                // FIX: why is getline not blocking on first pass?
+                std::getline(std::cin, msg);
+                
                 if (msg != "q") {
                     _chats[std::stoi(input)]->send_message(msg);
-                    //TODO: send message to queue
                     //pop messages from queue first in first out
+                    auto msg = _chats[std::stoi(input)]->receive_messages();
+                    _chats[std::stoi(input)]->send_random_message();
+                    auto msg_bot = _chats[std::stoi(input)]->receive_messages();
                 } else {
                     return;
                 }
