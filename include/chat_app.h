@@ -13,10 +13,8 @@ class ChatApp {
         void create_chat();
         void list_chats();
         void open_chat();
-        /*
-        void close_chat(std::string chat_name);
-        void close_chat(); //leave currently active chat
-        */
+        void close_chat();
+        
     private:
         std::string _user_name;
         std::vector<std::unique_ptr<Chat>> _chats;

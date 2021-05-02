@@ -5,7 +5,7 @@
 #include <memory>
 #include <iostream>
 #include <future>
-//include jthread.h?
+//NICE: include jthread.h
 
 
 ChatApp::ChatApp(std::string user_name): _user_name(user_name) {}
@@ -36,7 +36,7 @@ void ChatApp::get_menue_options() {
         return;  
     }
     
-    // TODO-Nice: refactor to map/enum or similar for options?
+    //NICE: refactor to map/enum or similar for options?
     switch (option_id) {
         case 1:
             create_chat();
@@ -45,7 +45,7 @@ void ChatApp::get_menue_options() {
             open_chat();
             break;
         case 3:
-            std::cout << "Chat closed" << std::endl;
+            close_chat();
             break;
         case 4:
             list_chats();
@@ -82,24 +82,36 @@ void ChatApp::list_chats() {
 void ChatApp::open_chat() {
     std::cout << "Please enter chat id or 'q' to return to main menue" << std::endl;
     std::string input;
+    int chat_id;
 
 
     std::cin >> input;
+
+    try
+    {
+        chat_id = std::stoi(input);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "Please enter an integer value" << std::endl;
+        open_chat();
+    }
+    
 
     if(input == "q") {
         return;
     } else {
         try
-        {
-            //TODO: What happens if I am out-of-bounds?
-            std::cout << "Chat: " << _chats[std::stoi(input)]->_chat_name << " selected" << std::endl;
+        {   
+            
+            std::cout << "Chat: " << _chats.at(chat_id)->_chat_name << " selected" << std::endl;
             std::cout << "You can start chatting :)" << std::endl;
             
             bool run = true;
 
             //Attention: thread outlives stack, i.e. the thread is not destroyed in c++17, only the thread object!
-            std::thread t(&Chat::receive_messages, _chats[std::stoi(input)].get(), &run);
-            std::thread r(&Chat::send_random_message, _chats[std::stoi(input)].get(), &run);
+            std::thread t(&Chat::receive_messages, _chats[chat_id].get(), &run);
+            std::thread r(&Chat::send_random_message, _chats[chat_id].get(), &run);
 
             std::cin.ignore();
 
@@ -111,7 +123,7 @@ void ChatApp::open_chat() {
                 //Debug print: std::cout << "cin " + msg << std::endl;
                 
                 if (msg != "q") {
-                    _chats[std::stoi(input)]->send_message(msg);
+                    _chats[chat_id]->send_message(msg);
                 } else {
                     //Signal threads to quite infinite while loop
                     run = false;
@@ -123,7 +135,10 @@ void ChatApp::open_chat() {
         //TODO: catch block not working properly yet -> Why?
         catch(const std::exception& e)
         {
-            std::cerr << e.what() << '\n';
+            std::cout << "Please enter a valid chat-id" << std::endl;
+            std::cout << "The following chats are available:" << std::endl;
+            list_chats();
+            std:: cout << std::endl;;
             open_chat();
         }
     }
@@ -134,4 +149,22 @@ void ChatApp::welcome() {
     std::cout << "~~~~~~~~~~~~~~~~~~~~~~~" << std::endl << std::endl;
 }
 
-//TODO: only parse stoi() once
+
+void ChatApp::close_chat() {
+    std::string chat_id_str;
+
+    try
+    {
+        std::cout << "Please enter chat-id of chat you want to delete:" << std::endl;
+        std::cin >> chat_id_str;
+        int chat_id = std::stoi(chat_id_str);
+        _chats.at(chat_id);
+        _chats.erase(_chats.begin() + chat_id);
+    }
+    catch(const std::exception& e)
+    {
+        std::cout << "Please select a valid chat id" << std::endl;
+        return;
+    }
+    
+}
