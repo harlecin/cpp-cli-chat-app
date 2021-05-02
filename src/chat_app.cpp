@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include <iostream>
+#include <future>
 
 
 ChatApp::ChatApp(std::string user_name): _user_name(user_name) {}
@@ -92,8 +93,8 @@ void ChatApp::open_chat() {
             // TODO: implement function that randomly sends text to queue
             while(true) {
                 std::string msg;
-                //std::cin >> msg;
-                // FIX: why is getline not blocking on first pass?
+                // Use cin.ignore() so getline() stops on first loop
+                std::cin.ignore();
                 std::getline(std::cin, msg);
                 
                 if (msg != "q") {

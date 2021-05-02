@@ -50,7 +50,6 @@ void Chat::send_message(std::string text) {
 
 std::string Chat::receive_messages(){
     //TODO: change to void?
-    //TODO: print until message queue is empty?
     auto msg = _chat_queue->receive();
     std::cout << msg << std::endl;
 
