@@ -40,16 +40,14 @@ Chat::~Chat() {
 }
 
 void Chat::send_message(std::string text) {
-    //std::cout << text << " sent" << std::endl;
-    //TODO: Send text to queue
-    //TODO: add sender name and timestamp infront of text:
+
     auto msg = _user_name + " said: " + text;
     _chat_queue->send(std::move(msg));
 
 }
 
 void Chat::receive_messages(bool *run){
-    //TODO: change to void?
+
     if (run == nullptr) 
         return;
 
