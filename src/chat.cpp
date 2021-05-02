@@ -48,26 +48,35 @@ void Chat::send_message(std::string text) {
 
 }
 
-std::string Chat::receive_messages(){
+void Chat::receive_messages(bool *run){
     //TODO: change to void?
-    auto msg = _chat_queue->receive();
-    std::cout << msg << std::endl;
+    if (run == nullptr) 
+        return;
 
-    return msg;
+    while(*run) {
+        auto msg = _chat_queue->receive();
+        std::cout << msg << std::endl;
+    }
 }
 
-void Chat::send_random_message() {
+void Chat::send_random_message(bool *run) {
     std::vector<std::string> responses{"Hmm", "Can you repeat that?", ":)"};
 
     std::random_device rd;
     std::mt19937 gen(rd());
     std::uniform_int_distribution<> distr_response(0,2);
     std::uniform_int_distribution<> distr_wait_time(1, 3);
-    auto response_id = distr_response(gen);
-    auto wait_time = distr_wait_time(gen);
 
-    auto msg = "Bot said: " + responses[response_id];
+    if (run == nullptr) 
+        return;
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000 * wait_time));
-    _chat_queue->send(std::move(msg));
+    while(*run) {
+        auto response_id = distr_response(gen);
+        auto wait_time = distr_wait_time(gen);
+
+        auto msg = "Bot said: " + responses[response_id];
+
+        std::this_thread::sleep_for(std::chrono::milliseconds(1000 * wait_time));
+        _chat_queue->send(std::move(msg));
+    }
 }

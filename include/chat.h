@@ -30,8 +30,8 @@ class Chat {
         Chat(std::string chat_name, std::string user_name);
         ~Chat();
         void send_message(std::string text);
-        std::string receive_messages();
-        void send_random_message();
+        void receive_messages(bool* run);
+        void send_random_message(bool* run);
     
         OnlineStatus _online_status;
         std::string _chat_name;
