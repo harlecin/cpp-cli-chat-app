@@ -101,12 +101,14 @@ void ChatApp::open_chat() {
             std::thread t(&Chat::receive_messages, _chats[std::stoi(input)].get(), &run);
             std::thread r(&Chat::send_random_message, _chats[std::stoi(input)].get(), &run);
 
+            std::cin.ignore();
+
             while(run) {
                 std::string msg;
                 // Use cin.clear() so getline() stops on first loop
                 std::cin.clear();
                 std::getline(std::cin, msg);
-                std::cout << "cin " + msg << std::endl;
+                //Debug print: std::cout << "cin " + msg << std::endl;
                 
                 if (msg != "q") {
                     _chats[std::stoi(input)]->send_message(msg);
@@ -127,5 +129,9 @@ void ChatApp::open_chat() {
     }
 }
 
-//TODO: Allow return to previous menue using "q"
+void ChatApp::welcome() {
+    std::cout << "Hello " << this->_user_name << "!" << std::endl;
+    std::cout << "~~~~~~~~~~~~~~~~~~~~~~~" << std::endl << std::endl;
+}
+
 //TODO: only parse stoi() once

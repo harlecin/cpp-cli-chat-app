@@ -10,8 +10,10 @@ int main() {
 
     ChatApp YourChatApp(user_name);
 
+    YourChatApp.welcome();
+    
     while (true) {
-       YourChatApp.get_menue_options();
+        YourChatApp.get_menue_options();
     }
 
     return 0;
