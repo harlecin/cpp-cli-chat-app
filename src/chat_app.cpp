@@ -125,14 +125,13 @@ void ChatApp::open_chat() {
                 if (msg != "q") {
                     _chats[chat_id]->send_message(msg);
                 } else {
-                    //Signal threads to quite infinite while loop
+                    //Signal threads to quit infinite while loop
                     run = false;
                 }
             }
             t.join();
             r.join();
         }
-        //TODO: catch block not working properly yet -> Why?
         catch(const std::exception& e)
         {
             std::cout << "Please enter a valid chat-id" << std::endl;
