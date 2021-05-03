@@ -43,6 +43,7 @@ When you create a chat, a new chat is pushed in a vector in the chat app. Each c
 I wanted to add an ncurses tui to get a prettier chat interface, but have not found the time yet. So stdin does not look nice, but works.
 
 # Criteria fullfilled
+
 [x] Project compiles and runs without errors (and warnings)
 [x] Code compiles on every platform using cmake
 
